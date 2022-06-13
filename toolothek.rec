@@ -1,0 +1,6 @@
+%rec: toolothek
+%key: name
+
+name: ssh-tools
+homepage: https://github.com/vaporup/ssh-tools
+description: collection of various tools using ssh
