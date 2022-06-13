@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+DB_URL="https://raw.githubusercontent.com/vaporup/toolothek/main/db.rec"
+
+curl --silent --head ${DB_URL} | awk '/^etag:/ {print $2}'
+curl --silent --write-out '%{http_code}\n' --head --header 'If-None-Match: "42499ac85e35e8b9c6c2ad591e300de4723c3f4bdd91e46833a6b85c61411395"' ${DB_URL}
