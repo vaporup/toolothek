@@ -1,5 +1,6 @@
 %rec: toolothek
 %key: name
+%allowed: video
 
 name: ssh-tools
 homepage: https://github.com/vaporup/ssh-tools
