@@ -1,6 +1,36 @@
 #!/usr/bin/env bash
 
 DB_URL="https://raw.githubusercontent.com/vaporup/toolothek/main/db.rec"
+DB_FILE="/tmp/db.rec"
+DB_ETAG="/tmp/db.etag"
 
-curl --silent --head ${DB_URL} | awk '/^etag:/ {print $2}'
-curl --silent --write-out '%{http_code}\n' --head --header 'If-None-Match: "42499ac85e35e8b9c6c2ad591e300de4723c3f4bdd91e46833a6b85c61411395"' ${DB_URL}
+if [[ $1 == "update" ]]; then
+
+  if [[ -e ${DB_FILE} ]]; then
+
+     etag=$(cat ${DB_ETAG})
+
+    read http_status http_etag < <(
+      curl --silent --head --header "If-None-Match: ${etag}" ${DB_URL} | tr -d '\r' |
+      awk '/^HTTP/ { STATUS = $2 }
+          /^etag:/ { ETAG = $2 }
+          END { printf("%s %s\n",STATUS, ETAG) }'
+    )
+
+    if [[ $http_status -eq 200 ]]; then
+      echo "Updating..."
+      curl --silent ${DB_URL} --output ${DB_FILE}
+      echo "Saving ETag..."
+      echo -n $http_etag > ${DB_ETAG}
+    fi
+
+    if [[ $http_status -eq 304 ]]; then
+      echo "Nothing to do."
+    fi
+
+  else
+    echo "Initialising ${DB_FILE}..."
+    curl --silent ${DB_URL} --output ${DB_FILE}
+  fi
+
+fi
