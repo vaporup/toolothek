@@ -5,7 +5,10 @@
 name: ssh-tools
 homepage: https://github.com/vaporup/ssh-tools
 description: collection of various tools using ssh
+tag: ssh
+tag: cli
 
 name: direnv
 homepage: https://direnv.net
 description: set directory specific environment variables
+tag: env

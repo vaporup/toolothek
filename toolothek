@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 DB_URL="https://raw.githubusercontent.com/vaporup/toolothek/main/db.rec"
-DB_FILE="/tmp/db.rec"
-DB_ETAG="/tmp/db.etag"
+DB_FILE="${HOME}/.cache/toolothek/db.rec"
+DB_ETAG="${HOME}/.cache/toolothek/db.etag"
 
 if [[ $1 == "update" ]]; then
 
@@ -29,6 +29,7 @@ if [[ $1 == "update" ]]; then
     fi
 
   else
+    mkdir -p "${HOME}/.cache/toolothek/"
     echo "Initialising ${DB_FILE}..."
     curl --silent ${DB_URL} --output ${DB_FILE}
   fi
