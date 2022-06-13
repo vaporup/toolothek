@@ -5,3 +5,7 @@
 name: ssh-tools
 homepage: https://github.com/vaporup/ssh-tools
 description: collection of various tools using ssh
+
+name: direnv
+homepage: https://direnv.net
+description: set directory specific environment variables
